@@ -1,0 +1,18 @@
+1.Configure your Git credentials:
+git config --global user.name "iZIer01"
+git config --global user.email "joaonkunku01@gmail.com"
+--------------------------------------------------------------------
+
+2.Switch to the new branch (or create it if you haven't):
+git checkout -b "homework-1--223068209(Joao-Nkunku)"
+
+--------------------------------------------------------------------
+
+3.Stage and commit your changes:
+  git add .
+  git commit -m "Your commit message here"
+
+--------------------------------------------------------------------
+
+ 4.Push the branch to GitHub:
+ git push origin "homework-1--223068209(Joao-Nkunku)"
