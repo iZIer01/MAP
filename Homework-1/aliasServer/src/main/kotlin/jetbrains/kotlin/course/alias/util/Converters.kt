@@ -8,7 +8,7 @@ import jetbrains.kotlin.course.alias.results.GameResult
 import jetbrains.kotlin.course.alias.team.Team
 import jetbrains.kotlin.course.alias.team.TeamService
 
-
+// Type alias for identifiers
 typealias Identifier = Int
 
 // Factory for generating unique identifiers
