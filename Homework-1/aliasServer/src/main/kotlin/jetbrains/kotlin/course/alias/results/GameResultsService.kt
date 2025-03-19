@@ -1,21 +1,24 @@
 package jetbrains.kotlin.course.alias.results
 
-import org.springframework.stereotype.Service
+import jetbrains.kotlin.course.alias.team.Team
+import jetbrains.kotlin.course.alias.team.TeamService
 
-// Data class to store game results
-data class GameResult(val playerName: String, val score: Int)
+// Type alias to store game results
+typealias GameResult = List<Team>
 
-@Service
 class GameResultsService {
-    private val gameResults = mutableListOf<GameResult>()  // In-memory list to store results
 
-    // Function to save a game result
+    companion object {
+        private val gameHistory: MutableList<GameResult> = mutableListOf()
+    }
+
     fun saveGameResults(result: GameResult) {
-        gameResults.add(result)  // Add result to the list
+        require(result.isNotEmpty()) { "Result cannot be empty" }
+        require(result.all { TeamService.teamsStorage.containsKey(it.id) }) {
+            "All team IDs must be valid"
+        }
+        gameHistory.add(result)
     }
 
-    // Function to retrieve all game results
-    fun getAllGameResults(): List<GameResult> {
-        return gameResults.toList()  // Return a copy of the results list
-    }
+    fun getAllGameResults(): List<GameResult> = gameHistory.reversed()
 }
