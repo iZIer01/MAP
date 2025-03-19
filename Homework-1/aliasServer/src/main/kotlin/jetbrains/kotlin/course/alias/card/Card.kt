@@ -1,9 +1,13 @@
 package jetbrains.kotlin.course.alias.card
 
-import org.w3c.dom.Text
+import jetbrains.kotlin.course.alias.util.Identifier
 
-data class Word(val text: String)
+// Class representing a word
+@JvmInline
+value class Word(val word: String)
 
-data class (){
-
-}
+// Class representing a card
+data class Card(
+    val id: Identifier,
+    val words: List<Word>
+)

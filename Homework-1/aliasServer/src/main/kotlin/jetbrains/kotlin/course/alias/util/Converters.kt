@@ -8,6 +8,16 @@ import jetbrains.kotlin.course.alias.results.GameResult
 import jetbrains.kotlin.course.alias.team.Team
 import jetbrains.kotlin.course.alias.team.TeamService
 
+
+typealias Identifier = Int
+
+// Factory for generating unique identifiers
+object IdentifierFactory {
+    private var counter: Identifier = 0
+
+    fun uniqueIdentifier(): Identifier = ++counter
+}
+
 fun Card.toJsCard(): JsCard = JsCard(this.id, this.words.map { it.word }.toTypedArray())
 
 fun Team.toJsTeam(): JsTeam = JsTeam(this.id, this.points, this.name)

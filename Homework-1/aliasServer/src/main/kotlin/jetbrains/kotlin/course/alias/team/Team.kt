@@ -1,10 +1,11 @@
 package jetbrains.kotlin.course.alias.team
 
-typealias Identifier = Int
+import jetbrains.kotlin.course.alias.util.Identifier
 
-
-data class Team {
-     val  id: Identifier,
-     var point: Int = 0,
-     val name: String = `Team#${ id + 1}`
+// Data class to represent a team
+data class Team(
+     val id: Identifier,
+     var points: Int = 0
+) {
+     val name: String = "Team#${id + 1}"
 }

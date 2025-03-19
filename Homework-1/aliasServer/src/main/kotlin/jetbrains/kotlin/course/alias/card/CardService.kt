@@ -1,46 +1,35 @@
 package jetbrains.kotlin.course.alias.card
 
+import jetbrains.kotlin.course.alias.util.IdentifierFactory
 
-// Importing the words stored at the Words.kt
-import jetbrains.kotlin.course.alias.util.words
-import org.springframework.stereotype.Service
+class CardService(
+    private val identifierFactory: IdentifierFactory = IdentifierFactory()
+) {
 
-typealias Identifier = Int
+    private val word = listOf(
+        "apple", "banana", "carrot", "dragon", "elephant",
+        "forest", "guitar", "honey", "igloo", "jacket",
+        "kangaroo", "lemon", "mountain", "notebook"
+    )
 
-data class Word(val text: String)
-data class Card(val id: Identifier, val words: List<Word>)
-
-class IdentifierFactory {
-    private var currentId = 0
-
-    fun uniqueIdentifier(): Identifier {
-        return currentId++  // Increment ID each time a new identifier is needed
-    }
-}
-
-@Service
-class CardService(private val identifierFactory: IdentifierFactory) {
-    private val cards = mutableListOf<Card>()
-
-    // Function to generate cards using the words from util
-    fun generateCards() {
-        val wordList = words.toList()  // Convert Set to List
-        val groupedWords = wordList.chunked(4)  // Split the list into sublists of 4
-
-        // must create a Card For each group of 4 words,
-        for (group in groupedWords) {
-            val card = Card(identifierFactory.uniqueIdentifier(), group.toWords())  // Create a card
-            cards.add(card)  // Add the card to the list
-        }
+    companion object {
+        const val WORDS_IN_CARD = 4
+        val cardsAmount: Int
+            get() = word.size / WORDS_IN_CARD
     }
 
-    // Extension function to convert a list of strings into a list of Word objects
-    private fun List<String>.toWords(): List<Word> {
-        return this.map { Word(it) }  // Convert each string into a Word object
+    val cards: List<card> = generateCards()
+
+    private fun List<String>.toWords(): List<word> = this.map { word(it) }
+
+    private fun generateCards(): List<card> {
+        return word.shuffled()
+            .chunked(WORDS_IN_CARD)
+            .take(cardsAmount)
+            .map { chunk -> card(identifierFactory.uniqueIdentifier(), chunk.toWords()) }
     }
 
-    // Function to get a card by its index
-    fun getCardByIndex(index: Int): Card {
-        return cards.getOrElse(index) { throw IllegalArgumentException("Card not found at index $index") }
+    fun getCardByIndex(index: Int): card {
+        return cards.getOrNull(index) ?: error("Card at index $index not found")
     }
 }
